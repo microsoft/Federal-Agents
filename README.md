@@ -74,9 +74,8 @@ Key considerations for implementing agents in government environments:
 ## Getting Started
 
 1. Browse the /demos folder  
-2. Review /architectures  
-3. Use /guidance  
-4. Adapt scenarios to your mission needs  
+2. Review /assets and /templates 
+3. Adapt scenarios to your mission needs  
 
 ## Repository Structure
 

@@ -81,8 +81,6 @@ Key considerations for implementing agents in government environments:
 ## Repository Structure
 
     /demos            - Agent-based solutions and scenarios  
-    /architectures    - Reference designs and system patterns  
-    /guidance         - Security, compliance, and deployment guidance  
     /assets           - Diagrams, images, and supporting content  
     /templates        - Standard templates for contributions  
 

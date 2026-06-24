@@ -1,6 +1,6 @@
 # SOAR_DocGen — Document Generation Agent
 
-SOAR_DocGen is the document‑generation companion to **SOAR**. It is a **worker agent**, not a conversational one — it receives a structured request, gathers the data, renders the document, and files it in the correct sortie folder. It returns a terse success or error message and nothing else.
+SOAR_DocGen is the document‑generation companion to **[SOAR](SOAR_README.md)**. It is a **worker agent**, not a conversational one — it receives a structured request, gathers the data, renders the document, and files it in the correct sortie folder. It returns a terse success or error message and nothing else.
 
 SOAR determines *when* documents are needed and invokes SOAR_DocGen with a request like:
 

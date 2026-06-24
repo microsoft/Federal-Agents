@@ -4,7 +4,7 @@ SOAR is a conversational sortie planning agent for US Air Force training operati
 
 SOAR acts as an **assistant, not an autonomous planner**: the human planner makes every decision. SOAR gathers data, surfaces options and recommendations, and waits for explicit confirmation before committing changes.
 
-> 🧩 **This solution is built as two connected agents.** **SOAR** is the conversational orchestrator (this README). **SOAR_DocGen** is its document‑generation worker — invoked by SOAR to produce weather briefs, mission briefs, and maps in the background so the planner stays unblocked. Both must be deployed and published in your environment for the full workflow to function. See [DOCGen_README.md](DOCGen_README.md) and the deployment guide in [POC-SETUP.md](POC-SETUP.md).
+> 🧩 **This solution is built as two connected agents.** **SOAR** is the conversational orchestrator (this README). **SOAR_DocGen** is its document‑generation worker — invoked by SOAR to produce weather briefs and mission briefs in the background so the planner stays unblocked. Both must be deployed and published in your environment for the full workflow to function. See [DOCGen_README.md](DOCGen_README.md) and the deployment guide in [POC-SETUP.md](POC-SETUP.md).
 
 > ⚠️ **Disclaimer:** SOAR is **inspired by**, but is not a faithful representation of, the official US Air Force mission planning process. The workflows, terminology, and rules used here are simplified and in some places adapted to enable demo and training scenarios. SOAR is **not** an authoritative planning tool and should not be used to plan or execute real‑world operations. Always defer to current Air Force doctrine, regulations, and approved planning systems for actual mission planning.
 
@@ -15,7 +15,7 @@ SOAR acts as an **assistant, not an autonomous planner**: the human planner make
 - **Manages crews and aircraft** — checks availability and assigns pilots and jets to flight positions
 - **Enforces planning rules** — valid callsigns per mission type, role naming, and status transitions
 - **Checks weather** for departure bases during planning
-- **Generates documents** — hands off to **SOAR_DocGen** to produce weather briefs, mission briefs, and maps
+- **Generates documents** — hands off to **SOAR_DocGen** to produce weather briefs and mission briefs
 - **Answers questions** about doctrine, terminology, and planning processes from its knowledge source
 
 ### Operating Modes
@@ -49,7 +49,7 @@ Modes are mutually exclusive and only change when you explicitly ask.
 | **Get Realtime Weather** | Current conditions and forecast for departure bases |
 | **WorkIQ Word MCP** | Creates Word documents |
 | **WorkIQ SharePoint MCP** | Creates folders and files the generated documents in OneDrive |
-| **SOAR_DocGen** (connected agent) | Worker agent invoked to generate weather briefs, mission briefs, and maps |
+| **SOAR_DocGen** (connected agent) | Worker agent invoked to generate weather briefs and mission briefs |
 
 ### Data Tables
 

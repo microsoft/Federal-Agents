@@ -77,7 +77,7 @@ Import the SOARLite managed solution into your Power Platform environment.
 1. Go to **https://make.powerapps.com**
 2. Confirm the environment selector (top right) shows your **POC environment**
 3. Left nav → **Solutions** → **Import solution**
-4. Browse to the `SOARLite_managed.zip` package from the [`assets/`](assets/) folder of this repo and click **Next**
+4. Browse to the `SOAR_unmanaged.zip` package from the [`assets/`](assets/) folder of this repo and click **Next**
 5. Click **Next** again on the solution details page
 
 ### Connection references

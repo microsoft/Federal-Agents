@@ -44,36 +44,29 @@ OneDrive/
 
 ## 2. Excel Workbook Setup
 
-Download `SOARLite-Data.xlsx` from the [`assets/`](assets/) folder of this repo and copy it to the `SOAR/SOARData/` folder in your OneDrive.
+Download `SOAR-Data.xlsx` from the [`assets/`](assets/) folder of this repo and copy it to the `SOAR/SOARData/` folder in your OneDrive.
 
 ### Workbook Contents:
 
-| Sheet | Purpose | Sample Rows |
-|-------|---------|-------------|
-| Personnel | Pilot roster with qualifications | 20 |
-| Aircraft | Tail numbers, types, status | 10 |
-| Bases | USAF installations with coordinates | 10 |
-| Operations | Exercise definitions (RED FLAG, etc.) | 3 |
-| Missions | Mission packages within operations | 5 |
-| Sorties | Individual flights within missions | 8 |
-| FlightPositions | Pilot/aircraft assignments per sortie | 16 |
-| Units | Squadron/Wing definitions | 4 |
+The workbook ships with **8 pre-built Excel Tables**, one per sheet, each named to match its sheet:
 
-### Format Each Sheet as a Table
+| Sheet / Table | Purpose | Sample Rows | Columns |
+|---------------|---------|-------------|---------|
+| Personnel | Pilot roster with qualifications | 20 | Name, Rank, Callsign, Role, Unit, Qualifications, Status, HoursFlown |
+| Aircraft | Tail numbers, types, status | 10 | TailNumber, Type, Status, HomeBase, Unit |
+| Bases | USAF installations with coordinates | 10 | Name, Code, Latitude, Longitude |
+| Operations | Exercise definitions (RED FLAG, etc.) | 3 | Name, FolderName, StartDate, EndDate, Status, Description |
+| Missions | Mission packages within operations | 6 | Name, MissionType, Operation, PlannedStart, Status |
+| Sorties | Individual flights within missions | 9 | Name, FlightNumber, Mission, Status, TakeoffTime, Duration, DepartureBase, TrainingArea |
+| FlightPositions | Pilot/aircraft assignments per sortie | 18 | Name, PositionNumber, Role, Sortie, Pilot, Aircraft |
+| Units | Squadron/Wing definitions | 4 | Name, Type, Location, AircraftType, Mission |
 
-The Excel connector and knowledge indexer both require each sheet to be a named **Table**:
-
-1. Open `SOARLite-Data.xlsx` in Excel Online
-2. For each sheet:
-   - Select all data (including headers)
-   - **Insert** → **Table**
-   - Ensure "My table has headers" is checked
-   - Name the table to **match the sheet name** (e.g., `Personnel`, `Aircraft`, `Sorties`)
+> ✅ **No table formatting required.** All sheets are already formatted as named Tables. Do not modify the table names — the Excel action rebinding step (section 5) depends on them.
 
 ### Important:
 - The workbook must remain in `SOARData/` for the knowledge source to function
 - Do not rename the file after adding it as a knowledge source
-- Table names must match exactly — the rebind step in section 5 depends on the table names being correct
+- Do not modify table names — they must stay matched to the sheet names
 
 ---
 
@@ -119,7 +112,7 @@ Knowledge sources are tenant-specific and do **not** travel with the solution im
 1. Open the **SOARLite** agent in Copilot Studio
 2. Navigate to **Knowledge** → **Add knowledge**
 3. Select **Files** → **OneDrive for Business**
-4. Browse to `SOAR/SOARData/SOARLite-Data.xlsx` (the copy in **your** OneDrive)
+4. Browse to `SOAR/SOARData/SOAR-Data.xlsx` (the copy in **your** OneDrive)
 5. Click **Add**
 
 The agent will index the workbook (this takes a few minutes). Once indexed, the agent can query it via natural language.
@@ -147,11 +140,11 @@ There are **4 Excel actions** to rebind, across both agents:
 2. Navigate to **Actions** → click the Excel action to open it
 3. In the **Inputs** panel, click the **Location** dropdown → select **OneDrive for Business**
 4. In the **Document Library** dropdown → select **OneDrive**
-5. In the **File** picker → browse to `SOAR/SOARData/SOARLite-Data.xlsx`
+5. In the **File** picker → browse to `SOAR/SOARData/SOAR-Data.xlsx`
 6. In the **Table** dropdown → the correct table will populate automatically (it must match the original table name — e.g. `Sorties`, `Personnel`)
 7. **Save** the action
 
-> ⚠️ Each Excel sheet must already be formatted as a **Table** (see section 2) before this picker will resolve table names correctly.
+> ✅ The workbook ships with all required tables pre-built (see section 2). No table-creation step is needed before rebinding.
 
 ---
 
@@ -193,8 +186,7 @@ The POC consists of two agents that work together:
 
 **Pre-Import:**
 - [ ] OneDrive folders created (`SOAR/Missions/`, `SOAR/SOARData/`)
-- [ ] `SOARLite-Data.xlsx` copied to `SOARData/`
-- [ ] Excel sheets converted to Tables
+- [ ] `SOAR-Data.xlsx` copied to `SOARData/`
 - [ ] WeatherAPI.com account created and API key obtained
 
 **Import:**
@@ -203,7 +195,7 @@ The POC consists of two agents that work together:
 - [ ] WeatherAPI key supplied to environment variable
 
 **Post-Import:**
-- [ ] Knowledge source (`SOARLite-Data.xlsx`) added to SOARLite and indexed
+- [ ] Knowledge source (`SOAR-Data.xlsx`) added to SOARLite and indexed
 - [ ] All 4 Excel actions rebound to POC user's workbook (3 in SOARLite, 1 in SOARLite_DocGen)
 - [ ] **Both agents published (SOARLite AND SOARLite_DocGen)**
 
@@ -214,5 +206,5 @@ The POC consists of two agents that work together:
 - [ ] Test doc gen: "Generate a weather brief for VIPER Flight 1"
 ---
 
-*Document Version: 1.1*  
+*Document Version: 1.2*  
 *Last Updated: 2026-06-24*

@@ -14,7 +14,7 @@ Generate all documents for HAWG Flight 1
 
 ## Why a Two‑Agent Design?
 
-Everything SOAR_DocGen does — querying the workbook, calling weather and map services, generating Word documents, filing them in OneDrive — could technically live inside a single, larger SOAR agent. We deliberately split it into two agents for a different reason: **to demonstrate how multiple Copilot Studio agents can work together as a system.**
+Everything SOAR_DocGen does — querying the workbook, calling the weather service, generating Word documents, filing them in OneDrive — could technically live inside a single, larger SOAR agent. We deliberately split it into two agents for a different reason: **to demonstrate how multiple Copilot Studio agents can work together as a system.**
 
 ### Benefits of the multi‑agent approach
 
@@ -44,9 +44,8 @@ If you only need a quick demo, a single‑agent build would be perfectly viable.
 |------|----------|---------------|
 | **WeatherBrief** | Mission info, current conditions, forecast, flight‑risk assessment | Base assigned |
 | **MissionBrief** | Crew assignments, comms plan, ordnance, mission data | Crew + aircraft assigned, status Planned+ |
-| **Map** | Operational area map for the sortie | Base coordinates available |
 
-When asked for **"all documents"**, it generates WeatherBrief → Map → MissionBrief in that order.
+When asked for **"all documents"**, it generates WeatherBrief → MissionBrief in that order.
 
 ---
 
@@ -56,7 +55,6 @@ When asked for **"all documents"**, it generates WeatherBrief → Map → Missio
 |------|---------|
 | **Excel Online (Business)** | Reads sortie, mission, crew, aircraft, base, and operation data (list rows) |
 | **Get Realtime Weather** | Current conditions and forecast for the departure base |
-| **Get Map Data** | Generates the operational area map for the sortie |
 | **WorkIQ Word MCP** | Creates the Word document from HTML (`CreateDocument`) |
 | **WorkIQ SharePoint MCP** | Creates Operation/Sortie folders and moves the document into place |
 
@@ -98,4 +96,4 @@ Word MCP creates the file in the OneDrive root, then SharePoint MCP relocates it
 
 ---
 
-*SOAR_DocGen is invoked by **SOAR** and is not used directly by end users. Both agents must be published in your environment for document generation to work — see the SOAR [POC-SETUP.md](../../SOARLite/docs/POC-SETUP.md).*
+*SOAR_DocGen is invoked by **SOAR** and is not used directly by end users. Both agents must be published in your environment for document generation to work — see the SOAR [POC-SETUP.md](POC-SETUP.md).*

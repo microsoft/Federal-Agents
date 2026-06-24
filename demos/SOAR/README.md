@@ -4,6 +4,8 @@ SOAR is a conversational sortie planning agent for US Air Force training operati
 
 SOAR acts as an **assistant, not an autonomous planner**: the human planner makes every decision. SOAR gathers data, surfaces options and recommendations, and waits for explicit confirmation before committing changes.
 
+> 🧩 **This solution is built as two connected agents.** **SOAR** is the conversational orchestrator (this README). **SOAR_DocGen** is its document‑generation worker — invoked by SOAR to produce weather briefs, mission briefs, and maps in the background so the planner stays unblocked. Both must be deployed and published in your environment for the full workflow to function. See the SOAR_DocGen [README](DOCGen_README.md) and the deployment guide in [POC-SETUP.md](POC-SETUP.md).
+
 > ⚠️ **Disclaimer:** SOAR is **inspired by**, but is not a faithful representation of, the official US Air Force mission planning process. The workflows, terminology, and rules used here are simplified and in some places adapted to enable demo and training scenarios. SOAR is **not** an authoritative planning tool and should not be used to plan or execute real‑world operations. Always defer to current Air Force doctrine, regulations, and approved planning systems for actual mission planning.
 
 ---

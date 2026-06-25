@@ -6,6 +6,8 @@ SOAR acts as an **assistant, not an autonomous planner**: the human planner make
 
 > 🧩 **This solution is built as two connected agents.** **SOAR** is the conversational orchestrator (this README). **SOAR_DocGen** is its document‑generation worker — invoked by SOAR to produce weather briefs and mission briefs in the background so the planner stays unblocked. Both must be deployed and published in your environment for the full workflow to function. See [DOCGen_README.md](DOCGen_README.md) and the deployment guide in [POC-SETUP.md](POC-SETUP.md).
 
+> ℹ️ **Heads-up for POC importers — "SOAR" vs "SOARLite" naming:** The agents you import are named **SOARLite** and **SOARLite_DocGen**, but inside their greetings, instructions, and generated documents they often refer to themselves simply as **SOAR** / **SOAR_DocGen**. That's expected — "SOAR" is the product name used in conversation, while "SOARLite" is the build flavor you imported. They're the same agents; treat any in‑chat mention of "SOAR" as referring to the SOARLite pair.
+
 > ⚠️ **Disclaimer:** SOAR is **inspired by**, but is not a faithful representation of, the official US Air Force mission planning process. The workflows, terminology, and rules used here are simplified and in some places adapted to enable demo and training scenarios. SOAR is **not** an authoritative planning tool and should not be used to plan or execute real‑world operations. Always defer to current Air Force doctrine, regulations, and approved planning systems for actual mission planning.
 
 ---

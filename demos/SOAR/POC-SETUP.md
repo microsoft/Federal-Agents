@@ -72,12 +72,12 @@ The workbook ships with **8 pre-built Excel Tables**, one per sheet, each named 
 
 ## 3. Import the Solution
 
-Import the SOARLite managed solution into your Power Platform environment.
+Import the SOAR unmanaged solution into your Power Platform environment.
 
 1. Go to **https://make.powerapps.com**
 2. Confirm the environment selector (top right) shows your **POC environment**
 3. Left nav → **Solutions** → **Import solution**
-4. Browse to the `SOAR_1_0_0_0_unmanaged.zip` package from the [`assets/`](assets/) folder of this repo and click **Next**
+4. Browse to the `SOAR_unmanaged.zip` package from the [`assets/`](assets/) folder of this repo and click **Next**
 5. Click **Next** again on the solution details page
 
 ### Connection references
@@ -102,6 +102,8 @@ The wizard will also prompt for environment variable values:
 6. Click **Import** and wait for the import to complete (a few minutes).
 
 > ⚠️ If the import fails on a connection reference, cancel, create the missing connection from **Connections** in the left nav, then restart the import.
+
+> ℹ️ **"SOAR" vs "SOARLite" — what to expect.** The imported agents are named **SOARLite** and **SOARLite_DocGen**, but when you chat with them they will often introduce themselves as **SOAR** (and reference **SOAR_DocGen** as their document worker). Greetings, instructions, and generated documents all use the **SOAR** product name in conversation, while **SOARLite** is just the build flavor you imported. They're the same agents — no extra agents will appear after import.
 
 ---
 

@@ -1,4 +1,4 @@
-# Clinical Decision Support Agent
+# MEDA - Medical Enterprise Decision Agent
 
 > **Sample Solution** — This repository contains a reference implementation of a Clinical Decision Support Agent intended for evaluation and testing. It is **not** a certified medical device and must not be used for direct patient care.
 

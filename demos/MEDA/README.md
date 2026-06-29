@@ -1,8 +1,8 @@
-# MEDA - Medical Enterprise Decision Agent
+# Medical Enterprise Decision Agent (MEDA)
 
-> **Sample Solution** — This repository contains a reference implementation of a Clinical Decision Support Agent intended for evaluation and testing. It is **not** a certified medical device and must not be used for direct patient care.
+> **Sample Solution** — This repository contains a reference implementation of the Medical Enterprise Decision Agent (MEDA), a Clinical Decision Support Agent intended for evaluation and testing. It is **not** a certified medical device and must not be used for direct patient care.
 
-The Clinical Decision Support Agent assists licensed healthcare providers by surfacing patient-specific information, evidence-based clinical knowledge, medical terminology explanations, care coordination support, and clinical documentation assistance.
+MEDA assists licensed healthcare providers by surfacing patient-specific information, evidence-based clinical knowledge, medical terminology explanations, care coordination support, and clinical documentation assistance.
 
 The agent functions strictly as a clinical support resource and does **not** replace physician judgment, clinical assessment, or medical decision-making.
 
@@ -12,6 +12,7 @@ The agent functions strictly as a clinical support resource and does **not** rep
 
 - [Intended Use](#intended-use)
 - [Key Capabilities](#key-capabilities)
+- [What's in the Package](#whats-in-the-package)
 - [Getting Started](#getting-started)
 - [How the Agent Communicates](#how-the-agent-communicates)
 - [Response Structure](#response-structure)
@@ -40,6 +41,21 @@ The agent supports licensed clinicians by providing:
 
 ---
 
+## What's in the Package
+
+The solution file [assets/MEDA_1_0_0_1.zip](assets/MEDA_1_0_0_1.zip) is an **unmanaged** Microsoft Copilot Studio solution (version `1.0.0.1`) that contains:
+
+- The **Medical Enterprise Decision Agent (MEDA)** Copilot Studio agent, configured for the **Microsoft Teams** and **Microsoft 365 Copilot** channels, with semantic search enabled and content moderation set to **High**.
+- Four supporting **Power Automate** cloud flows:
+  - `GenerativeAnswerforSPOfile` — generates an answer grounded in a SharePoint file.
+  - `GeteventsfromTeamCalendar` — retrieves events from a team calendar.
+  - `ListPatientFilesbyPatientID` — lists patient files for a given Patient ID.
+  - `SaveresponsetoSPOfile` — saves a response back to a SharePoint file.
+
+Because the included flows interact with SharePoint and a team calendar, evaluators will be prompted to supply or create the corresponding connection references (for example, **SharePoint** and **Office 365 Outlook** / **Office 365 Groups**) during import.
+
+---
+
 ## Getting Started
 
 This solution is delivered as a **Microsoft Copilot Studio** agent, packaged as a solution `.zip` file located at [assets/MEDA_1_0_0_1.zip](assets/MEDA_1_0_0_1.zip).
@@ -48,7 +64,8 @@ This solution is delivered as a **Microsoft Copilot Studio** agent, packaged as 
 
 - A Microsoft **Power Platform** environment in which you have permission to import solutions (System Administrator or System Customizer role recommended)
 - Access to **Microsoft Copilot Studio** in that environment
-- Any connection references or data sources the agent depends on (configured after import)
+- Permissions and licensed connectors for the connection references used by the bundled flows (SharePoint, Office 365 Outlook / Groups, etc.)
+- A target **SharePoint** site and **Microsoft Teams** team that the flows can read from and write to during testing
 
 ### Installation
 
@@ -57,11 +74,13 @@ This solution is delivered as a **Microsoft Copilot Studio** agent, packaged as 
 3. Open **Copilot Studio** (or **Power Apps** → **Solutions**) and select the target environment from the environment switcher in the top right.
 4. Choose **Solutions** → **Import solution**.
 5. Browse to `assets/MEDA_1_0_0_1.zip`, select it, and click **Next**.
-6. Review the solution details, configure any required connection references, and click **Import**.
-7. After import completes, open the solution and launch the **Clinical Decision Support Agent** in Copilot Studio to review topics, knowledge sources, and settings.
-8. Publish the agent to make it available to your test users.
+6. Review the solution details, configure any required **connection references** (SharePoint, Office 365 Outlook / Groups), and click **Import**.
+7. After import completes, open the solution in Copilot Studio and review the **Medical Enterprise Decision Agent (MEDA)** agent's topics, knowledge sources, and the four Power Automate flows.
+8. Verify the agent in the **Microsoft Teams** and **Microsoft 365 Copilot** channels with non-production test users.
 
-> **Note:** This is a managed sample for evaluation. Validate connection references, data sources, and security roles in a non-production environment before testing with real users.
+> **Auto-publish:** The solution is configured to publish the agent automatically on import (`publishOnImport: true`). Confirm in Copilot Studio that the published version reflects your environment's connection references before sharing the agent with test users.
+>
+> **Note:** This is a sample for evaluation. Validate connection references, data sources, and security roles in a non-production environment before testing with real users.
 
 ---
 

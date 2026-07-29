@@ -4,7 +4,7 @@ SOAR is a conversational sortie planning agent for US Air Force training operati
 
 SOAR acts as an **assistant, not an autonomous planner**: the human planner makes every decision. SOAR gathers data, surfaces options and recommendations, and waits for explicit confirmation before committing changes.
 
-See [SOAR Architecture](SOAR-ARCHITECTURE.md) for system context, component responsibilities, data flow, and the SOAR-to-SOAR_DocGen document-generation sequence.
+See [SOAR Architecture](SOAR_ARCHITECTURE.md) for system context, component responsibilities, data flow, and the SOAR-to-SOAR_DocGen document-generation sequence.
 
 > 🧩 **This solution is built as two connected agents.** **SOAR** is the conversational orchestrator (this README). **SOAR_DocGen** is its document‑generation worker — invoked by SOAR to produce weather briefs and mission briefs in the background so the planner stays unblocked. Both must be deployed and published in your environment for the full workflow to function. See [DOCGen_README.md](DOCGen_README.md) and the deployment guide in [POC-SETUP.md](POC-SETUP.md).
 

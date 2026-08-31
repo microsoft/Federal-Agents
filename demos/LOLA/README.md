@@ -46,14 +46,14 @@ LOLA is a **Microsoft Copilot Studio** agent that helps people find the **Social
 
 ```mermaid
 flowchart TD
-    A[User: &quot;Find an SSA office near me&quot;] --> B[Field Office Finder topic]
-    B --> C{Ask: &quot;Where are you located?&quot;}
+    A[User asks to find an SSA office nearby] --> B[Field Office Finder topic]
+    B --> C{Ask where the user is located}
     C --> D[Power Automate flow: FO-Automate]
-    D --> E[OpenCage connector<br/>City → Lat/Long]
+    D --> E[OpenCage connector<br/>City to latitude/longitude]
     E --> F[ArcGIS SSA Field Office<br/>FeatureServer spatial query<br/>within 20 miles]
     F --> G[Parse office details]
     G --> H[Return to agent]
-    H --> I[LOLA formats &amp; sends response]
+    H --> I[LOLA formats and sends response]
 ```
 
 ---

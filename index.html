@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Federal Agents — Interactive Demo Explorer</title>
+    <script>
+      (() => {
+        const param = new URLSearchParams(window.location.search).get("scoutTheme");
+        const theme =
+          param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+        --cp-bg: #f7f4ef;
+        --cp-bg-elevated: #fcfbf8;
+        --cp-surface: #ffffff;
+        --cp-surface-soft: #f5f5f5;
+        --cp-border: #dedede;
+        --cp-border-strong: #919191;
+        --cp-text: #242424;
+        --cp-text-muted: #5c5c5c;
+        --cp-text-soft: #6f6f6f;
+        --cp-accent: #b11f4b;
+        --cp-accent-hover: #9a1a41;
+        --cp-accent-soft: rgba(177, 31, 75, 0.08);
+        --cp-accent-fg: #ffffff;
+        --cp-success: #16a34a;
+        --cp-danger: #dc2626;
+        --cp-warning: #f59e0b;
+        --cp-link: #0078d4;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+        --cp-overlay: rgba(255, 255, 255, 0.8);
+        --cp-panel: rgba(255, 255, 255, 0.86);
+        --cp-panel-strong: rgba(255, 255, 255, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.55);
+        --cp-highlight: rgba(177, 31, 75, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --cp-bg: #3d3b3a;
+        --cp-bg-elevated: #343231;
+        --cp-surface: #292929;
+        --cp-surface-soft: #2e2e2e;
+        --cp-border: #474747;
+        --cp-border-strong: #5f5f5f;
+        --cp-text: #dedede;
+        --cp-text-muted: #919191;
+        --cp-text-soft: #b0b0b0;
+        --cp-accent: #fd8ea1;
+        --cp-accent-hover: #fb7b91;
+        --cp-accent-soft: rgba(253, 142, 161, 0.14);
+        --cp-accent-fg: #1a1a1a;
+        --cp-success: #4ade80;
+        --cp-danger: #f87171;
+        --cp-warning: #fbbf24;
+        --cp-link: #4da6ff;
+        --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+        --cp-overlay: rgba(41, 41, 41, 0.88);
+        --cp-panel: rgba(41, 41, 41, 0.72);
+        --cp-panel-strong: rgba(41, 41, 41, 0.96);
+        --cp-sheen: rgba(255, 255, 255, 0.04);
+        --cp-highlight: rgba(253, 142, 161, 0.12);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+        background: var(--cp-bg);
+        color: var(--cp-text);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      code, .mono {
+        font-family: Consolas, "Courier New", Courier, monospace;
+      }
+
+      a { color: var(--cp-link); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+      /* Header */
+      header.site {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--cp-panel-strong);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--cp-border);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 24px;
+        max-width: 1140px;
+        margin: 0 auto;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: -0.01em; }
+      .brand .dot {
+        width: 30px; height: 30px; border-radius: 9px;
+        background: var(--cp-accent); color: var(--cp-accent-fg);
+        display: grid; place-items: center; font-size: 16px; font-weight: 800;
+      }
+      .nav-actions { display: flex; align-items: center; gap: 10px; }
+      .icon-btn {
+        background: var(--cp-surface);
+        border: 1px solid var(--cp-border);
+        color: var(--cp-text);
+        border-radius: 0.625rem;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      .icon-btn:hover { border-color: var(--cp-border-strong); }
+
+      /* Hero */
+      .hero { padding: 64px 0 36px; }
+      .eyebrow {
+        display: inline-block;
+        font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+        color: var(--cp-accent);
+        background: var(--cp-accent-soft);
+        padding: 6px 12px; border-radius: 999px; margin-bottom: 18px;
+      }
+      .hero h1 { font-size: clamp(34px, 5vw, 52px); line-height: 1.05; margin: 0 0 16px; letter-spacing: -0.02em; }
+      .hero p.lead { font-size: 19px; color: var(--cp-text-muted); max-width: 720px; margin: 0 0 28px; }
+      .stat-row { display: flex; flex-wrap: wrap; gap: 14px; }
+      .stat {
+        background: var(--cp-surface); border: 1px solid var(--cp-border);
+        border-radius: 16px; padding: 16px 20px; min-width: 150px;
+        box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      }
+      .stat .num { font-size: 28px; font-weight: 800; color: var(--cp-accent); }
+      .stat .lbl { font-size: 13px; color: var(--cp-text-muted); }
+      .tagline {
+        margin-top: 30px; font-style: italic; color: var(--cp-text-soft);
+        border-left: 3px solid var(--cp-accent); padding-left: 14px;
+      }
+
+      /* Controls */
+      .controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 36px 0 22px; }
+      .search {
+        flex: 1; min-width: 220px;
+        display: flex; align-items: center; gap: 10px;
+        background: var(--cp-surface); border: 1px solid var(--cp-border);
+        border-radius: 0.625rem; padding: 10px 14px;
+      }
+      .search input { border: 0; background: transparent; color: var(--cp-text); width: 100%; font-size: 15px; outline: none; }
+      .search input::placeholder { color: var(--cp-text-soft); }
+      .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+      .chip {
+        border: 1px solid var(--cp-border); background: var(--cp-surface);
+        color: var(--cp-text-muted); border-radius: 999px; padding: 8px 16px;
+        cursor: pointer; font-size: 14px; font-weight: 600; transition: all .15s;
+      }
+      .chip:hover { border-color: var(--cp-border-strong); color: var(--cp-text); }
+      .chip.active { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+
+      /* Cards grid */
+      .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 22px; padding-bottom: 50px; }
+      .card {
+        background: var(--cp-surface); border: 1px solid var(--cp-border);
+        border-radius: 16px; padding: 24px; display: flex; flex-direction: column;
+        box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+        transition: transform .15s, border-color .15s;
+      }
+      .card:hover { transform: translateY(-3px); border-color: var(--cp-accent); }
+      .card.hidden { display: none; }
+      .card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+      .badge-letter {
+        width: 46px; height: 46px; flex: none; border-radius: 12px;
+        display: grid; place-items: center; font-size: 20px; font-weight: 800;
+        background: var(--cp-accent-soft); color: var(--cp-accent);
+      }
+      .card h3 { margin: 0; font-size: 19px; letter-spacing: -0.01em; }
+      .card .sub { font-size: 13px; color: var(--cp-text-soft); }
+      .card .desc { color: var(--cp-text-muted); font-size: 14.5px; margin: 4px 0 16px; }
+      .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+      .tag {
+        font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+        background: var(--cp-surface-soft); color: var(--cp-text-muted); border: 1px solid var(--cp-border);
+      }
+      .card-foot { margin-top: auto; display: flex; gap: 10px; }
+      .btn {
+        flex: 1; text-align: center; cursor: pointer; font-size: 14px; font-weight: 600;
+        padding: 10px 14px; border-radius: 0.625rem; border: 1px solid var(--cp-border);
+        background: var(--cp-surface); color: var(--cp-text);
+      }
+      .btn:hover { border-color: var(--cp-border-strong); }
+      .btn.primary { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+      .btn.primary:hover { background: var(--cp-accent-hover); }
+
+      .empty { text-align: center; color: var(--cp-text-soft); padding: 60px 0; display: none; }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+        display: none; align-items: center; justify-content: center; z-index: 100; padding: 24px;
+      }
+      .modal-overlay.open { display: flex; }
+      .modal {
+        background: var(--cp-bg-elevated); border: 1px solid var(--cp-border);
+        border-radius: 16px; max-width: 760px; width: 100%; max-height: 88vh; overflow-y: auto;
+        box-shadow: var(--cp-shadow);
+      }
+      .modal-head {
+        position: sticky; top: 0; background: var(--cp-bg-elevated);
+        padding: 24px 28px 18px; border-bottom: 1px solid var(--cp-border);
+        display: flex; align-items: flex-start; gap: 16px;
+      }
+      .modal-head h2 { margin: 0 0 4px; font-size: 24px; letter-spacing: -0.01em; }
+      .modal-head .sub { color: var(--cp-text-soft); font-size: 14px; }
+      .close-x {
+        margin-left: auto; border: 1px solid var(--cp-border); background: var(--cp-surface);
+        color: var(--cp-text); width: 36px; height: 36px; border-radius: 9px; cursor: pointer; font-size: 18px; flex: none;
+      }
+      .close-x:hover { border-color: var(--cp-border-strong); }
+      .modal-body { padding: 22px 28px 30px; }
+      .modal-body h4 {
+        font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--cp-accent); margin: 24px 0 10px;
+      }
+      .modal-body h4:first-child { margin-top: 0; }
+      .modal-body ul { margin: 0; padding-left: 20px; }
+      .modal-body li { margin-bottom: 7px; color: var(--cp-text-muted); }
+      .modal-body li b { color: var(--cp-text); font-weight: 600; }
+      .note {
+        background: var(--cp-accent-soft); border: 1px solid var(--cp-border);
+        border-left: 3px solid var(--cp-accent); border-radius: 8px;
+        padding: 12px 16px; font-size: 13.5px; color: var(--cp-text-muted); margin: 16px 0;
+      }
+      .kv-table { width: 100%; border-collapse: collapse; margin-top: 6px; font-size: 14px; }
+      .kv-table td { padding: 8px 12px; border-bottom: 1px solid var(--cp-border); vertical-align: top; }
+      .kv-table td:first-child { font-weight: 600; color: var(--cp-text); white-space: nowrap; width: 1%; }
+      .kv-table td:last-child { color: var(--cp-text-muted); }
+      .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+      .flow .step {
+        background: var(--cp-surface-soft); border: 1px solid var(--cp-border);
+        border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--cp-text);
+      }
+      .flow .arrow { color: var(--cp-accent); font-weight: 700; }
+
+      footer.site { border-top: 1px solid var(--cp-border); padding: 30px 0; color: var(--cp-text-soft); font-size: 13.5px; }
+      footer.site .wrap { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; }
+    </style>
+  </head>
+  <body>
+    <header class="site">
+      <div class="nav">
+        <div class="brand"><span class="dot">FA</span><span>Federal Agents</span></div>
+        <div class="nav-actions">
+          <a class="icon-btn" href="https://github.com/microsoft/Federal-Agents" target="_blank" rel="noopener">GitHub ↗</a>
+          <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">🌙 <span id="themeLbl">Dark</span></button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <span class="eyebrow">Demo &amp; Reference Repository</span>
+          <h1>AI agents for U.S. Government missions</h1>
+          <p class="lead">
+            Practical, deployable proof-of-concept agents built on Microsoft 365 Copilot, Copilot Studio,
+            Power Platform, and Azure — designed for GCC, GCC High, and DoD environments. Explore each agent below.
+          </p>
+          <div class="stat-row">
+            <div class="stat"><div class="num">3</div><div class="lbl">Agent solutions</div></div>
+            <div class="stat"><div class="num">4</div><div class="lbl">Copilot Studio agents</div></div>
+            <div class="stat"><div class="num">3</div><div class="lbl">Mission domains</div></div>
+            <div class="stat"><div class="num">PoC</div><div class="lbl">Evaluation-ready</div></div>
+          </div>
+          <p class="tagline">Mission data in. Mission outcomes out.</p>
+        </div>
+      </section>
+
+      <div class="wrap">
+        <div class="controls">
+          <label class="search">
+            <span>🔎</span>
+            <input id="searchInput" type="text" placeholder="Search agents, domains, capabilities…" />
+          </label>
+          <div class="filters" id="filters">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="defense">Defense</button>
+            <button class="chip" data-filter="health">Health</button>
+            <button class="chip" data-filter="citizen">Citizen Services</button>
+          </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+        <div class="empty" id="empty">No agents match your search.</div>
+      </div>
+    </main>
+
+    <div class="modal-overlay" id="modal">
+      <div class="modal" id="modalCard"></div>
+    </div>
+
+    <footer class="site">
+      <div class="wrap">
+        <span>Microsoft Federal · Federal Agents — proof-of-concept demos for evaluation only, not production-ready.</span>
+        <span>Validate against your security &amp; compliance requirements before deployment.</span>
+      </div>
+    </footer>
+
+    <script>
+      const agents = [
+        {
+          id: "soar",
+          name: "SOAR",
+          full: "Sortie Optimization &amp; Allocation Resourcing",
+          domain: "defense",
+          domainLabel: "Defense · USAF",
+          desc: "A conversational sortie-planning agent for US Air Force training operations — builds and manages flights end to end through natural conversation.",
+          tags: ["Copilot Studio", "Two-agent system", "Excel Online", "Weather", "Doc generation"],
+          summary: "SOAR helps planners go from creating an operation and assigning crews and aircraft, to checking weather and generating mission paperwork — all by talking to it. It acts as an <b>assistant, not an autonomous planner</b>: the human makes every decision and SOAR waits for explicit confirmation before committing changes.",
+          sections: [
+            { h: "Built as two connected agents", note: "<b>SOAR</b> is the conversational orchestrator. <b>SOAR_DocGen</b> is its background document-generation worker, invoked to produce weather briefs and mission briefs so the planner stays unblocked. Both must be deployed and published. (Imported as <span class='mono'>SOARLite</span> / <span class='mono'>SOARLite_DocGen</span>.)" },
+            { h: "What it does", list: [
+              "<b>Plans sorties</b> using a 3-tier hierarchy: Operation → Mission (callsign) → Sortie → Flight Positions",
+              "<b>Manages crews &amp; aircraft</b> — checks availability and assigns pilots and jets",
+              "<b>Enforces planning rules</b> — valid callsigns, role naming, status transitions",
+              "<b>Checks weather</b> for departure bases during planning",
+              "<b>Generates documents</b> — hands off to SOAR_DocGen for briefs",
+              "<b>Answers questions</b> about doctrine, terminology, and process from its knowledge source"
+            ]},
+            { h: "Operating modes", kv: [
+              ["Planning (default)", "Concise sortie planning with full read/write access"],
+              ["Doctrine", "Read-only Q&amp;A about doctrine, processes, and terminology"],
+              ["Training", "Plans sorties and narrates the reasoning, rules, and constraints"]
+            ]},
+            { h: "Tools it uses", kv: [
+              ["Excel Online (Business)", "Reads/writes mission data across planning tables"],
+              ["Knowledge workbook", "Semantic search over the SOAR-Data workbook"],
+              ["Get Realtime Weather", "Conditions &amp; forecast for departure bases"],
+              ["WorkIQ Word + SharePoint MCP", "Creates Word docs and files them in OneDrive"],
+              ["SOAR_DocGen", "Connected worker agent for brief generation"]
+            ]},
+            { h: "Data tables", plain: "Operations · Missions · Sorties · FlightPositions · Personnel · Aircraft · Bases" }
+          ],
+          disclaimer: "Inspired by — but not a faithful representation of — the official USAF mission planning process. Not an authoritative planning tool; do not use for real-world operations.",
+          link: "https://github.com/microsoft/Federal-Agents/tree/main/demos/SOAR"
+        },
+        {
+          id: "meda",
+          name: "MEDA",
+          full: "Medical Enterprise Decision Agent",
+          domain: "health",
+          domainLabel: "Health · Clinical",
+          desc: "A clinical decision-support agent that helps licensed providers surface patient-specific information and evidence-based knowledge — advisory only.",
+          tags: ["Copilot Studio", "Teams + M365", "Power Automate", "SharePoint", "High moderation"],
+          summary: "MEDA assists licensed healthcare providers by surfacing patient-specific information, evidence-based clinical knowledge, terminology explanations, care-coordination support, and documentation assistance. It functions <b>strictly as a clinical support resource</b> and does not replace physician judgment or medical decision-making.",
+          sections: [
+            { h: "Intended use", note: "For use <b>solely</b> by licensed healthcare professionals as a clinical support and information-retrieval resource. All output is advisory and must be independently validated by a qualified clinician before being acted upon." },
+            { h: "Key capabilities", list: [
+              "Patient-specific updates drawn from medical records",
+              "Evidence-based clinical reference information",
+              "Technical explanations of medical terminology",
+              "Care coordination support",
+              "Clinical documentation assistance"
+            ]},
+            { h: "What's in the package", plain: "An <b>unmanaged</b> Copilot Studio solution (v1.0.0.1) with the MEDA agent configured for Microsoft Teams and M365 Copilot — semantic search enabled, content moderation set to <b>High</b>." },
+            { h: "Supporting Power Automate flows", kv: [
+              ["GenerativeAnswerforSPOfile", "Generates an answer grounded in a SharePoint file"],
+              ["GeteventsfromTeamCalendar", "Retrieves events from a team calendar"],
+              ["ListPatientFilesbyPatientID", "Lists patient files for a given Patient ID"],
+              ["SaveresponsetoSPOfile", "Saves a response back to a SharePoint file"]
+            ]}
+          ],
+          disclaimer: "A reference implementation for evaluation and testing. It is not a certified medical device and must not be used for direct patient care.",
+          link: "https://github.com/microsoft/Federal-Agents/tree/main/demos/MEDA"
+        },
+        {
+          id: "lola",
+          name: "LOLA",
+          full: "Local Office Lookup Agent",
+          domain: "citizen",
+          domainLabel: "Citizen Services · SSA",
+          desc: "A Copilot Studio agent that finds the nearest Social Security Administration field office within 20 miles of any city or address.",
+          tags: ["Copilot Studio", "Custom connector", "Power Automate", "Geospatial", "Telephony"],
+          summary: "The user provides a city or address, and LOLA returns the nearest SSA field office (within 20 miles) along with its address, phone, fax, and hours. A clean pattern for: collect input → call a custom connector → orchestrate a Power Automate flow → format a response.",
+          sections: [
+            { h: "Features", list: [
+              "<b>Natural-language lookup</b> — ask for an office near a place",
+              "<b>Geospatial search</b> — geocodes the location, finds the nearest office within 20 miles",
+              "<b>Rich office details</b> — name, address, phone, fax, and hours",
+              "<b>Always-on fallback</b> — every response includes the SSA National 800 Number",
+              "<b>Multi-channel</b> — Telephony, Microsoft Teams, and M365 Copilot",
+              "<b>Generative answers</b> — off-topic questions answered from knowledge sources"
+            ]},
+            { h: "How it works", flow: [
+              "User asks", "Field Office Finder topic", "Power Automate flow",
+              "OpenCage geocode (city → lat/long)", "ArcGIS spatial query (≤20 mi)", "Format &amp; respond"
+            ]},
+            { h: "Architecture", kv: [
+              ["Conversation", "Copilot Studio agent — instructions, starters, formatting"],
+              ["Topic: FieldOfficeFinder", "Collects location, invokes flow, renders result"],
+              ["Topic: Search", "Generative answers for off-topic questions"],
+              ["Action / Connector", "Custom connector wrapping OpenCage Forward Geocoding API"],
+              ["Automation", "Geocodes location and queries the SSA office dataset"]
+            ]}
+          ],
+          disclaimer: "A demonstration / proof-of-concept agent intended for a sandbox or developer environment, not production.",
+          link: "https://github.com/microsoft/Federal-Agents/tree/main/demos/LOLA"
+        }
+      ];
+
+      const grid = document.getElementById("grid");
+      const empty = document.getElementById("empty");
+      const searchInput = document.getElementById("searchInput");
+      let activeFilter = "all";
+
+      function cardHTML(a) {
+        return `
+          <article class="card" data-id="${a.id}" data-domain="${a.domain}"
+                   data-search="${(a.name + ' ' + a.full + ' ' + a.desc + ' ' + a.tags.join(' ') + ' ' + a.domainLabel).toLowerCase()}">
+            <div class="card-head">
+              <div class="badge-letter">${a.name[0]}</div>
+              <div>
+                <h3>${a.name}</h3>
+                <div class="sub">${a.full}</div>
+              </div>
+            </div>
+            <div class="desc">${a.desc}</div>
+            <div class="tags">${a.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+            <div class="card-foot">
+              <button class="btn primary" data-open="${a.id}">Explore</button>
+              <a class="btn" href="${a.link}" target="_blank" rel="noopener">README ↗</a>
+            </div>
+          </article>`;
+      }
+
+      grid.innerHTML = agents.map(cardHTML).join("");
+
+      function applyFilters() {
+        const q = searchInput.value.trim().toLowerCase();
+        let visible = 0;
+        document.querySelectorAll(".card").forEach(card => {
+          const matchFilter = activeFilter === "all" || card.dataset.domain === activeFilter;
+          const matchSearch = !q || card.dataset.search.includes(q);
+          const show = matchFilter && matchSearch;
+          card.classList.toggle("hidden", !show);
+          if (show) visible++;
+        });
+        empty.style.display = visible ? "none" : "block";
+      }
+
+      document.getElementById("filters").addEventListener("click", e => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeFilter = chip.dataset.filter;
+        applyFilters();
+      });
+      searchInput.addEventListener("input", applyFilters);
+
+      // Modal
+      const modal = document.getElementById("modal");
+      const modalCard = document.getElementById("modalCard");
+
+      function sectionHTML(s) {
+        let body = "";
+        if (s.note) body += `<div class="note">${s.note}</div>`;
+        if (s.plain) body += `<p style="color:var(--cp-text-muted);margin:6px 0 0">${s.plain}</p>`;
+        if (s.list) body += `<ul>${s.list.map(li => `<li>${li}</li>`).join("")}</ul>`;
+        if (s.kv) body += `<table class="kv-table">${s.kv.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>`;
+        if (s.flow) {
+          const steps = s.flow.map(st => `<span class="step">${st}</span>`).join('<span class="arrow">→</span>');
+          body += `<div class="flow">${steps}</div>`;
+        }
+        return `<h4>${s.h}</h4>${body}`;
+      }
+
+      function openModal(id) {
+        const a = agents.find(x => x.id === id);
+        if (!a) return;
+        modalCard.innerHTML = `
+          <div class="modal-head">
+            <div class="badge-letter" style="width:54px;height:54px;font-size:24px">${a.name[0]}</div>
+            <div>
+              <h2>${a.name}</h2>
+              <div class="sub">${a.full} · ${a.domainLabel}</div>
+            </div>
+            <button class="close-x" id="closeX" aria-label="Close">×</button>
+          </div>
+          <div class="modal-body">
+            <p style="font-size:15.5px;color:var(--cp-text-muted);margin-top:0">${a.summary}</p>
+            ${a.sections.map(sectionHTML).join("")}
+            ${a.disclaimer ? `<h4>Disclaimer</h4><div class="note">${a.disclaimer}</div>` : ""}
+            <div style="margin-top:22px"><a class="btn primary" style="display:inline-block;text-decoration:none" href="${a.link}" target="_blank" rel="noopener">Open full README on GitHub ↗</a></div>
+          </div>`;
+        modal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        document.getElementById("closeX").addEventListener("click", closeModal);
+      }
+      function closeModal() {
+        modal.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      grid.addEventListener("click", e => {
+        const btn = e.target.closest("[data-open]");
+        if (btn) openModal(btn.dataset.open);
+      });
+      modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+      document.addEventListener("keydown", e => { if (e.key === "Escape") closeModal(); });
+
+      // Theme toggle
+      const themeBtn = document.getElementById("themeBtn");
+      const themeLbl = document.getElementById("themeLbl");
+      function syncThemeBtn() {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        themeBtn.firstChild.textContent = dark ? "☀️ " : "🌙 ";
+        themeLbl.textContent = dark ? "Light" : "Dark";
+      }
+      themeBtn.addEventListener("click", () => {
+        const dark = document.documentElement.getAttribute("data-theme") === "dark";
+        document.documentElement.setAttribute("data-theme", dark ? "light" : "dark");
+        syncThemeBtn();
+      });
+      syncThemeBtn();
+    </script>
+  </body>
+</html>

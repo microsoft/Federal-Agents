@@ -7,9 +7,11 @@ This folder contains standalone demonstration agents for U.S. Federal scenarios,
 | Demo | Full Name | Description |
 | --- | --- | --- |
 | [ATLAS](./ATLAS/README.md) | Access, Travel, Logistics & Assignment System | Conversational courier readiness and trip-support agent that helps couriers prepare for assigned runs — itineraries, site access and badging, escort requirements, parking, points of contact, and delivery instructions. |
+| [CropSure](./CropSure/README.md) | Crop Validation & Case Review Agent | Copilot Studio agent that combines USDA NASS Quick Stats and CropScape/CDL cropland data with a structured, human-reviewed case workflow to assemble validation packages, record findings, and route Approve / Review Required / Escalate / Unable To Determine recommendations to an authorized reviewer. |
 | [Fed Workforce Assistant](./FedWorkforceAssistant/README.md) | Federal Workforce Assistant | Knowledge agent for federal HR specialists and benefits administrators that explains workforce policies, classification standards, benefits, retirement guidance, and travel policy using configured official and agency sources. |
 | [LOLA](./LOLA/README.md) | Local Office Lookup Agent | Finds the nearest Social Security Administration (SSA) field office within 20 miles of a city or address, returning address, phone, fax, and hours via OpenCage geocoding and an SSA ArcGIS spatial query. |
 | [MEDA](./MEDA/README.md) | Medical Enterprise Decision Agent | Clinical decision-support agent for licensed providers that surfaces patient-specific info, evidence-based reference, terminology explanations, care coordination, and documentation assistance. Advisory only — not a certified medical device. |
+| [NSFPIA](./NSFPIA/README.md) | NSF Proposal Intake Assistant | POC agent for NSF administrative proposal intake — runs compliance checks, program routing, reviewer conflict-of-interest screening, draft communications, and attributed panel-summary drafting on synthetic demo data. Not approved for production NSF data or decisions. |
 | [Oversight Agent](./OversightAgent/README.md) | Congressional Oversight Response Agent | Drafts neutral, citation-backed responses to Congressional oversight inquiries, RFIs, QFRs, and hearing-preparation questions using approved agency knowledge sources and mandatory human review. |
 | [SOAR](./SOAR/README.md) | Sortie Optimization & Allocation Resourcing | Conversational sortie-planning agent for USAF training operations — builds operations, missions, and sorties; assigns crews and aircraft; checks weather; and generates mission paperwork via a connected SOAR_DocGen worker agent. |
 | [VASN](./VASN/README.md) | VA Site Navigator | Helps Veterans, families, caregivers, and VA staff find a nearby Department of Veterans Affairs (VHA) facility from a city or address, and surfaces Veterans Crisis Line guidance. |
@@ -19,6 +21,10 @@ This folder contains standalone demonstration agents for U.S. Federal scenarios,
 ### ATLAS — Access, Travel, Logistics & Assignment System
 A conversational courier readiness and trip-support agent (Copilot Studio + Dataverse/SharePoint). ATLAS acts as an assistant, not an autonomous coordinator — it surfaces logistics and readiness details but leaves every operational decision to the courier. Supports Courier Support, Site Information, and Training modes.
 📄 [ATLAS README](./ATLAS/README.md)
+
+### CropSure — Crop Validation & Case Review Agent
+A Microsoft Copilot Studio solution that combines agricultural reference data with a structured, human-reviewed case workflow. It uses USDA NASS Quick Stats and CropScape Cropland Data Layer (CDL) services to assemble validation packages, auto-generate Case IDs, and consolidate findings (evidence, discrepancies, confidence, limitations, missing information) before routing a recommendation via Power Automate to a SharePoint-backed Case Review list. CropSure supports validation and review only — an authorized reviewer makes and records every final decision. Available on Microsoft Teams and Microsoft 365 Copilot.
+📄 [CropSure README](./CropSure/README.md)
 
 ### Fed Workforce Assistant
 A Microsoft Copilot Studio knowledge agent for federal HR specialists and benefits administrators. It searches configured OPM, GSA, and agency SharePoint sources to explain workforce policy, position classification, FEHB, retirement, travel, and onboarding guidance in plain language with source citations.
@@ -31,6 +37,10 @@ A Copilot Studio agent that answers *"Where are you located?" → nearest SSA fi
 ### MEDA — Medical Enterprise Decision Agent
 A reference clinical decision-support agent for licensed healthcare professionals, delivered as an unmanaged Copilot Studio solution package with four supporting Power Automate flows (SharePoint and team-calendar integration). Configured for Teams and Microsoft 365 Copilot with high content moderation. All output is advisory and must be validated by a clinician.
 📄 [MEDA README](./MEDA/README.md)
+
+### NSFPIA — NSF Proposal Intake Assistant
+A Microsoft Copilot Studio proof of concept that demonstrates administrative proposal intake, compliance checks, program routing, reviewer conflict screening, draft communications, and attributed panel-summary drafting. Built on Dataverse, AI Builder, SharePoint, Word Online, Outlook, and Teams, it ships with deterministic synthetic proposals and seed data. All content is fictional demo data — the POC is not approved for production NSF data or decisions.
+📄 [NSFPIA README](./NSFPIA/README.md)
 
 ### Oversight Agent — Congressional Oversight Response Agent
 A Microsoft Copilot Studio agent that helps authorized agency staff draft neutral, citation-backed responses to Congressional oversight inquiries, RFIs, QFRs, and hearing-preparation questions. It is grounded only in approved agency sources, uses Azure AI Search for retrieval, and requires Legislative Affairs, General Counsel, or Policy review before use.

@@ -6,17 +6,24 @@ This folder contains standalone demonstration agents for U.S. Federal scenarios,
 
 | Demo | Full Name | Description |
 | --- | --- | --- |
+| [AEGIS](./AEGIS/README.md) | Acquisition Evidence & Governance Investigation System | Acquisition intelligence and evidence-review agent that researches vendors and public federal contract activity using SAM.gov and USAspending.gov, producing source-backed briefings for human review without scoring vendors or making acquisition decisions. |
 | [ATLAS](./ATLAS/README.md) | Access, Travel, Logistics & Assignment System | Conversational courier readiness and trip-support agent that helps couriers prepare for assigned runs — itineraries, site access and badging, escort requirements, parking, points of contact, and delivery instructions. |
 | [CropSure](./CropSure/README.md) | Crop Validation & Case Review Agent | Copilot Studio agent that combines USDA NASS Quick Stats and CropScape/CDL cropland data with a structured, human-reviewed case workflow to assemble validation packages, record findings, and route Approve / Review Required / Escalate / Unable To Determine recommendations to an authorized reviewer. |
 | [Fed Workforce Assistant](./FedWorkforceAssistant/README.md) | Federal Workforce Assistant | Knowledge agent for federal HR specialists and benefits administrators that explains workforce policies, classification standards, benefits, retirement guidance, and travel policy using configured official and agency sources. |
+| [IAA Navigator](./IAANavigator/README.md) | Interagency Agreement Navigator | Helps authorized personnel prepare, look up, update, and track Interagency Agreement request packages and related line items in SharePoint. Workflow transitions do not constitute approvals, signatures, or authority to obligate funds. |
 | [LOLA](./LOLA/README.md) | Local Office Lookup Agent | Finds the nearest Social Security Administration (SSA) field office within 20 miles of a city or address, returning address, phone, fax, and hours via OpenCage geocoding and an SSA ArcGIS spatial query. |
 | [MEDA](./MEDA/README.md) | Medical Enterprise Decision Agent | Clinical decision-support agent for licensed providers that surfaces patient-specific info, evidence-based reference, terminology explanations, care coordination, and documentation assistance. Advisory only — not a certified medical device. |
 | [NSFPIA](./NSFPIA/README.md) | NSF Proposal Intake Assistant | POC agent for NSF administrative proposal intake — runs compliance checks, program routing, reviewer conflict-of-interest screening, draft communications, and attributed panel-summary drafting on synthetic demo data. Not approved for production NSF data or decisions. |
 | [Oversight Agent](./OversightAgent/README.md) | Congressional Oversight Response Agent | Drafts neutral, citation-backed responses to Congressional oversight inquiries, RFIs, QFRs, and hearing-preparation questions using approved agency knowledge sources and mandatory human review. |
 | [SOAR](./SOAR/README.md) | Sortie Optimization & Allocation Resourcing | Conversational sortie-planning agent for USAF training operations — builds operations, missions, and sorties; assigns crews and aircraft; checks weather; and generates mission paperwork via a connected SOAR_DocGen worker agent. |
 | [VASN](./VASN/README.md) | VA Site Navigator | Helps Veterans, families, caregivers, and VA staff find a nearby Department of Veterans Affairs (VHA) facility from a city or address, and surfaces Veterans Crisis Line guidance. |
+| [WATCHTOWER](./WatchTower/README.md) | WATCHTOWER | Executive cybersecurity intelligence and decision-support agent that uses NIST NVD vulnerability records and the CISA KEV catalog for evidence-supported briefings and leadership recommendations. Does not assess customer assets, establish exposure, or perform remediation. |
 
 ## Demo Details
+
+### AEGIS — Acquisition Evidence & Governance Investigation System
+A Microsoft Copilot Studio agent for federal acquisition, procurement, program, and oversight teams. It uses SAM.gov and USAspending.gov to research vendors, review bounded prime-contract award sets, compare obligations across the last two completed fiscal years, and produce acquisition intelligence briefs with source links, retrieval timestamps, and scope limitations. It separates facts from inferences and evidence gaps; authorized personnel retain all investigative and acquisition decisions.
+📄 [AEGIS README](./AEGIS/README.md)
 
 ### ATLAS — Access, Travel, Logistics & Assignment System
 A conversational courier readiness and trip-support agent (Copilot Studio + Dataverse/SharePoint). ATLAS acts as an assistant, not an autonomous coordinator — it surfaces logistics and readiness details but leaves every operational decision to the courier. Supports Courier Support, Site Information, and Training modes.
@@ -29,6 +36,10 @@ A Microsoft Copilot Studio solution that combines agricultural reference data wi
 ### Fed Workforce Assistant
 A Microsoft Copilot Studio knowledge agent for federal HR specialists and benefits administrators. It searches configured OPM, GSA, and agency SharePoint sources to explain workforce policy, position classification, FEHB, retirement, travel, and onboarding guidance in plain language with source citations.
 📄 [Fed Workforce Assistant README](./FedWorkforceAssistant/README.md)
+
+### IAA Navigator
+A Microsoft Copilot Studio agent for preparing and tracking Interagency Agreement request packages using a conversational intake card, SharePoint request and line-item records, and two Power Automate flows. Authorized users can look up requests, add cost lines, make supported updates, record selected completed requirements, and advance workflow stages. It does not execute agreements, obtain signatures, process payments, or confer funding authority. The demo currently provides exported solution source, not a qualified customer installation ZIP; follow its documented limitations and acceptance requirements before deployment.
+📄 [IAA Navigator README](./IAANavigator/README.md)
 
 ### LOLA — Local Office Lookup Agent
 A Copilot Studio agent that answers *"Where are you located?" → nearest SSA field office within 20 miles.* Geocodes the location through an OpenCage custom connector and runs a spatial query against the public SSA Field Office ArcGIS feature service via Power Automate. Available on Telephony, Teams, and Microsoft 365 Copilot.
@@ -53,6 +64,10 @@ A conversational sortie-planning agent for USAF training operations, built as tw
 ### VASN — VA Site Navigator
 A Copilot Studio agent that answers *"Where are you located?" → a nearby VA facility.* Geocodes the location via OpenCage and queries the public Veterans Health Administration Medical Facilities ArcGIS feature service through a Power Automate flow. Every facility result includes Veterans Crisis Line contact guidance. Configured for Teams and Microsoft 365 Copilot.
 📄 [VASN README](./VASN/README.md) · [POC Setup](./VASN/POC-SETUP.md)
+
+### WATCHTOWER
+A Microsoft Copilot Studio executive cybersecurity intelligence agent that turns public NIST National Vulnerability Database records and the CISA Known Exploited Vulnerabilities catalog into evidence-supported briefings. It supports CVE research, exploitation-list checks, recent KEV additions, catalog-wide priorities, and leadership recommendations aligned to the NIST Cybersecurity Framework. It distinguishes published facts from conditional mission impact and evidence gaps; it does not inspect customer assets, establish exposure or compromise, perform remediation, or make operational decisions.
+📄 [WATCHTOWER README](./WatchTower/README.md)
 
 ---
 
